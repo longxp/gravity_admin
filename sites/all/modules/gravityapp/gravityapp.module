@@ -1,0 +1,416 @@
+<?php
+/**
+ * Implements hook_menu()
+ */
+function gravityapp_menu() {
+  $items ['admin/config/gravityapp'] = array(
+    'title' => 'gravityapp',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('gravityapp_form'),
+//    'access arguments' => array('create new2 form'),
+    'access callback' => 'user_is_logged_in',
+//    'type' => MENU_NORMAL_ITEM,
+    'info' => t('gravity app'),
+    'position' => 'left',
+//    'weight' => -6,
+  );
+  $items ['admin/config/gravityapp/switch'] = array(
+    'title' => 'Switch enviroment',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('gravityapp_form'),
+//    'access arguments' => array('create new2 form'),
+    'access callback' => 'user_is_logged_in',
+//    'type' => MENU_NORMAL_ITEM,
+    'info' => t('gravity app')
+  );
+  $items ['admin/config/gravityapp/switch/dev'] = array(
+    'title' => 'Deverloper',
+    'page callback' => 'gravityapp_switch_dev',
+    'page arguments' => array(4),
+//    'access arguments' => array('create new2 form'),
+    'access callback' => 'user_is_logged_in',
+//    'type' => MENU_NORMAL_ITEM,
+    'file' => 'gravityapp.inc',
+    'type' => MENU_CALLBACK | MENU_NORMAL_ITEM,
+    'info' => t('gravity app')
+  );
+  $items ['admin/config/gravityapp/switch/custom'] = array(
+    'title' => 'Custom',
+    'page callback' => 'gravityapp_switch_custom',
+    'page arguments' => array(4),
+//    'access arguments' => array('create new2 form'),
+    'access callback' => 'user_is_logged_in',
+//    'type' => MENU_NORMAL_ITEM,
+    'file' => 'gravityapp.inc',
+    'type' => MENU_CALLBACK | MENU_NORMAL_ITEM,
+    'info' => t('gravity app')
+  );
+  $items ['admin/config/gravityapp/switch_env/%'] = array(
+    'title' => 'Custom',
+    'page callback' => 'gravityapp_switch_env',
+    'page arguments' => array('gravityapp_form'),
+//    'access arguments' => array('create new2 form'),
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK | MENU_NORMAL_ITEM,
+    'info' => t('gravity app'),
+    'weight' => -10,
+    'file' => 'gravityapp.inc',
+  );
+  return $items;
+}
+
+function gravityapp_form($form, &$form_state) {
+  $form = array();
+  $form['nid'] = array(
+    '#type' => 'hidden',
+  );
+  $form['tab'] = array(
+    '#type' => 'hidden',
+    '#prefix' => '<div id="tab2_forcus">',
+    '#suffix' => '</div>',
+  );
+  $form['gravity'] = array(
+    '#type' => 'vertical_tabs',
+  );
+  $form['dev'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Deverloper'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#group' => 'gravity'
+  );
+
+  $form['dev']['devon'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Module Bật'),
+    '#collapsible' => TRUE,
+    '#default_value' => variable_get('gravityapp_dev_module_on', 'module bật'),
+    '#collapsed' => FALSE,
+    '#group' => 'gravity'
+  );
+  $form['dev']['devoff'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Module Tắt'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#default_value' => variable_get('gravityapp_dev_module_off', 'module tắt'),
+    '#group' => 'gravity'
+  );
+  $form['dev']['off_cache'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Tắt cache'),
+    '#options' => array(t('Yes'), t('No')),
+    '#default_value' => variable_get('gravityapp_dev_cache_off', ""),
+    '#group' => 'gravity'
+  );
+  $form['dev']['off_log'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Tắt log'),
+    '#options' => array(t('Yes'), t('No')),
+    '#default_value' => variable_get('gravityapp_dev_log_off', ""),
+    '#group' => 'gravity'
+  );
+  $form['dev']['tat_baoloi'] = array(
+    '#type' => 'radios',
+    '#title' => t('Tắt báo lỗi'),
+    '#options' => array(t('None'), t('Errors and warnings'), t('All messages')),
+    '#default_value' => variable_get('gravityapp_dev_error_off', ""),
+    '#group' => 'gravity'
+  );
+  $form['dev']['tat_css'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Aggregate and compress CSS files.'),
+    '#options' => array(t('Yes'), t('No')),
+    '#default_value' => variable_get('gravityapp_dev_preprocess_css', ""),
+    '#group' => 'gravity'
+  );
+  $form['dev']['tat_jav'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Aggregate JavaScript files.'),
+    '#options' => array(t('Yes'), t('No')),
+    '#default_value' => variable_get('gravityapp_dev_preprocess_js', ""),
+    '#group' => 'gravity'
+  );
+
+  /**
+   * form custom
+   * */
+
+  $form['custom'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Custom'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#group' => 'gravity'
+  );
+  $form['custom']['on2'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Module Bật'),
+    '#collapsible' => TRUE,
+    '#default_value' => variable_get('gravityapp_custom_module_on', 'module bật'),
+    '#collapsed' => FALSE,
+    '#group' => 'gravity'
+  );
+  $form['custom']['off2'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Module Tắt'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#default_value' => variable_get('gravityapp_custom_module_off', 'module tắt'),
+    '#group' => 'gravity'
+  );
+  $form['custom']['off_cache2'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Tắt cache'),
+    '#options' => array(t('Yes'), t('No')),
+    '#default_value' => variable_get('gravityapp_custom_cache_off', ""),
+    '#group' => 'gravity'
+  );
+  $form['custom']['off_log2'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Tắt log'),
+    '#options' => array(t('Yes'), t('No')),
+    '#default_value' => variable_get('gravityapp_custom_log_off', ""),
+    '#group' => 'gravity'
+  );
+  $form['custom']['tat_baoloi2'] = array(
+    '#type' => 'radios',
+    '#title' => t('Tắt báo lỗi'),
+    '#options' => array(t('None'), t('Errors and warnings'), t('All messages')),
+    '#default_value' => variable_get('gravityapp_custom_error_off', ""),
+    '#group' => 'gravity'
+  );
+  $form['custom']['tat_css2'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Aggregate and compress CSS files.'),
+    '#options' => array(t('Yes'), t('No')),
+    '#default_value' => variable_get('gravityapp_custom_preprocess_css', ""),
+    '#group' => 'gravity'
+  );
+  $form['custom']['tat_jav2'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Aggregate JavaScript files.'),
+    '#options' => array(t('Yes'), t('No')),
+    '#default_value' => variable_get('gravityapp_custom_preprocess_js', ""),
+    '#group' => 'gravity'
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+    '#submit' => array('gravityapp_form_submit'),
+  );
+  return $form;
+}
+
+function gravityapp_form_validate($form, &$form_state) {
+  $delimiter = ",";
+  $module_list = explode($delimiter, $form_state['values']['devon']); //lấy list module bật
+  $module_list2 = explode($delimiter, $form_state['values']['devoff']); // lấy list module tắt
+  $module_list3 = explode($delimiter, $form_state['values']['on2']); //lấy list module bật
+  $module_list4 = explode($delimiter, $form_state['values']['off2']); // lấy list module tắt
+  $new = array_intersect($module_list, $module_list2); //lấy mảng các module giống nhau
+  $new2 = array_intersect($module_list3, $module_list4); //lấy mảng các module giống nhau
+  foreach ($new as &$value) { // lấy phần tử trong mảng $new
+    if ($new == !NULL) {
+      form_set_error($value, t("Trùng module $value")); // hiện thông báo module trùng nhau
+    }
+  }
+  foreach ($new2 as &$value2) { // lấy phần tử trong mảng $new
+    if ($new2 == !NULL) {
+      form_set_error($value2, t("Trùng module $value2")); // hiện thông báo module trùng nhau
+    }
+  }
+}
+
+function gravityapp_abc_load($abc_id) {
+  return db_query("SELECT * FROM gravityapp_abc WHERE abc_id = :abc_id", array(':abc_id' => $abc_id))->fetchObject();
+}
+
+function gravityapp_form_submit($form, &$form_state) {
+
+  /**
+   * Moi truong dev
+   * Xy ly nut bat tat module
+   * 2 nut input
+   * Action :
+   * Exeption : Neu module co o trong ca 2 input thi hiện thông báo.
+   */
+
+  //Get all modules which need to be turn on/off
+  $variable_on = $form_state['values']['devon'];
+  $variable_off = $form_state['values']['devoff'];
+  $variable_on2 = $form_state['values']['on2'];
+  $variable_off2 = $form_state['values']['off2'];
+  $delimiter = ",";
+
+
+  //
+  try { // nếu có module thì bật và hiện thông báo.
+    variable_set('gravityapp_dev_module_on', $variable_on); //hiện module bật
+    drupal_set_message($message = "Enable module", $type = 'status');
+  } catch (Exception $q) { // k có thì hiện thông báo
+    drupal_set_message($message = "Can't Enable  module", $type = 'warning');
+  }
+
+  //lây list module tắt
+  try {
+//    module_disable($module_list2); // tắt module
+    variable_set('gravityapp_dev_module_off', $variable_off); //hiện module tắt
+    drupal_set_message($message = "Disable module", $type = 'status', $repeat = TRUE);
+  } catch (Exception $e) {
+    drupal_set_message($message = "Can't Disable  module", $type = 'warning', $repeat = TRUE);
+  }
+
+
+  /**
+   * Xu ly phan tat cache
+   * Nut checkbox
+   */
+  $off_cache = $form_state['values']['off_cache'];
+  if ($off_cache == 0) {
+    variable_set('gravityapp_dev_cache_off', 0);
+  }
+  else {
+    variable_set('gravityapp_dev_cache_off', 1);
+  }
+  /**
+   * Xu ly phan tat log
+   * Nut checkbox
+   */
+  $off_log = $form_state['values']['off_log'];
+  if ($off_log == 0) {
+    variable_set('gravityapp_dev_log_off', 0);
+  }
+  else {
+    variable_set('gravityapp_dev_log_off', 1);
+  }
+  /**
+   * Xu ly phan tat baoloi
+   *
+   */
+  $off_error = $form_state['values']['tat_baoloi'];
+  switch ($off_error) {
+    case 0:
+      variable_set('gravityapp_dev_error_off', 0);
+      break;
+    case 1:
+      variable_set('gravityapp_dev_error_off', 1);
+      break;
+    case 2:
+      variable_set('gravityapp_dev_error_off', 2);
+      break;
+  }
+
+  /**
+   * Xu ly phan tat nen css
+   * Nut checkbox
+   */
+  $tat_css = $form_state['values']['tat_css'];
+  if ($tat_css == 0) {
+    variable_set('gravityapp_dev_preprocess_css', 0);
+  }
+  else {
+    variable_set('gravityapp_dev_preprocess_css', 1);
+  }
+  /**
+   * Xu ly phan tat nen java
+   * Nut checkbox
+   */
+  $tat_jav = $form_state['values']['tat_jav'];
+  if ($tat_jav == 0) {
+    variable_set('gravityapp_dev_preprocess_js', 0);
+  }
+  else {
+    variable_set('gravityapp_dev_preprocess_js', 1);
+  }
+
+  /**
+   * Moi truong CUSTOM
+   * Xy ly nut bat tat module
+   * 2 nut input
+   * Action :
+   * Exeption : Neu module co o trong ca 2 input thi hiện thông báo.
+   */
+
+  //
+  try { // nếu có module thì bật và hiện thông báo.
+    variable_set('gravityapp_custom_module_on', $variable_on2); //hiện module bật
+    drupal_set_message($message = "Enable module", $type = 'status');
+  } catch (Exception $q) { // k có thì hiện thông báo
+    drupal_set_message($message = "Can't Enable  module", $type = 'warning');
+  }
+
+  //lây list module tắt
+  $module_list2 = explode($delimiter, $form_state['values']['off2']);
+  try {
+//    module_disable($module_list2); // tắt module
+    variable_set('gravityapp_custom_module_off', $variable_off2); //hiện module tắt
+    drupal_set_message($message = "Disable module", $type = 'status', $repeat = TRUE);
+  } catch (Exception $e) {
+    drupal_set_message($message = "Can't Disable  module", $type = 'warning', $repeat = TRUE);
+  }
+
+
+  /**
+   * Xu ly phan tat cache
+   * Nut checkbox
+   */
+  $off_cache = $form_state['values']['off_cache2'];
+  if ($off_cache == 0) {
+    variable_set('gravityapp_custom_cache_off', 0);
+  }
+  else {
+    variable_set('gravityapp_custom_cache_off', 1);
+  }
+  /**
+   * Xu ly phan tat log
+   * Nut checkbox
+   */
+  $off_log = $form_state['values']['off_log2'];
+  if ($off_log == 0) {
+    variable_set('gravityapp_custom_log_off', 0);
+  }
+  else {
+    variable_set('gravityapp_custom_log_off', 1);
+  }
+  /**
+   * Xu ly phan tat baoloi
+   *
+   */
+  $off_error = $form_state['values']['tat_baoloi2'];
+  switch ($off_error) {
+    case 0:
+      variable_set('gravityapp_custom_error_off', 0);
+      break;
+    case 1:
+      variable_set('gravityapp_custom_error_off', 1);
+      break;
+    case 2:
+      variable_set('gravityapp_custom_error_off', 2);
+      break;
+  }
+
+  /**
+   * Xu ly phan tat nen css
+   * Nut checkbox
+   */
+  $tat_css = $form_state['values']['tat_css2'];
+  if ($tat_css == 0) {
+    variable_set('gravityapp_custom_preprocess_css', 0);
+  }
+  else {
+    variable_set('gravityapp_custom_preprocess_css', 1);
+  }
+  /**
+   * Xu ly phan tat nen java
+   * Nut checkbox
+   */
+  $tat_jav = $form_state['values']['tat_jav2'];
+  if ($tat_jav == 0) {
+    variable_set('gravityapp_custom_preprocess_js', 0);
+  }
+  else {
+    variable_set('gravityapp_custom_preprocess_js', 1);
+  }
+
+}

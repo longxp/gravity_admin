@@ -1,0 +1,4 @@
+name = Gravity Admin module
+description = Gravity Admin
+package = development
+core = 7.x

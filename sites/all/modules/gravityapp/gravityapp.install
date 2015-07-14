@@ -1,0 +1,38 @@
+<?php
+/**
+ * hook install
+ *
+ */
+
+function gravityapp_install() {
+  $env = array(
+    'dev' => 1,
+    'custom' => 0,
+//    'active' => 'dev',
+  );
+  $env = serialize($env);
+  variable_set('env', $env);
+}
+
+/**
+ * hook uninstall
+ *
+ */
+
+function gravityapp_uninstall() {
+  variable_del('env');
+  variable_del('gravityapp_custom_preprocess_js');
+  variable_del('gravityapp_custom_preprocess_css');
+  variable_del('gravityapp_custom_cache_off');
+  variable_del('gravityapp_custom_error_off');
+  variable_del('gravityapp_custom_log_off');
+  variable_del('gravityapp_custom_module_off');
+  variable_del('gravityapp_custom_module_on');
+  variable_del('gravityapp_dev_cache_off');
+  variable_del('gravityapp_dev_error_off');
+  variable_del('gravityapp_dev_log_off');
+  variable_del('gravityapp_dev_module_off');
+  variable_del('gravityapp_dev_module_on');
+  variable_del('gravityapp_dev_preprocess_css');
+  variable_del('gravityapp_dev_preprocess_js');
+}

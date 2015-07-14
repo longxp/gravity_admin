@@ -1,0 +1,7 @@
+name = gravityapp
+description = module gravityapp
+package = development
+core = 7.x
+
+files[] = gravityapp.install
+scripts[] = gravityapp.js

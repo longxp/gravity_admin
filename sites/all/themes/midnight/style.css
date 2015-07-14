@@ -1,0 +1,42 @@
+#preface {
+  float: left;
+  width: 100%;
+  position: relative;
+  overflow: hidden; }
+  #preface .preface {
+    margin: 0 auto; }
+
+#preface .views-slideshow-controls-bottom {
+  float: left;
+  margin: -100px 0 0px 0;
+  position: relative;
+  width: 100%;
+  z-index: 10; }
+  #preface .views-slideshow-controls-bottom .views-slideshow-pager-fields {
+    position: absolute;
+    left: 47%;
+    width: 1920px; }
+
+#preface .views_slideshow_pager_field_item .views-content-counter {
+  background: url("../images/slide.png") no-repeat scroll 0 0 transparent;
+  cursor: pointer;
+  float: left;
+  height: 18px;
+  width: 18px;
+  margin-left: 10px; }
+
+#preface .views_slideshow_pager_field_item.active .views-content-counter {
+  background: url("../images/slide-ac.png") no-repeat scroll 0 0 transparent;
+  cursor: pointer;
+  float: left;
+  height: 18px;
+  width: 18px; }
+
+#preface .views-content-counter {
+  padding-left: 4px;
+  font-size: 0; }
+
+.new {
+  font-size: 0; }
+
+/*# sourceMappingURL=style.css.map */

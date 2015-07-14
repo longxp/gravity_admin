@@ -1,0 +1,8 @@
+Module bật: gravityapp_dev_module_on
+Module tắt: gravityapp_dev_module_off
+Tắt cache: gravityapp_dev_cache_off
+Tắt log: gravityapp_dev_log_off
+Tắt báo lỗi: gravityapp_dev_error_off
+Nén css: gravityapp_dev_preprocess_css
+Nén js: gravityapp_dev_preprocess_js
+
