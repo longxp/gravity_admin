@@ -1,66 +1,55 @@
 <?php
 /**
- * Implements hook_enable().
+ * Implements hook_install().
  */
-function gravity_admin_enable(){
-    // Create default entries in the menu.
-    $menu = array(
-        'menu_name' => 'gravity_admin', // Drupal menu machine name
-        'title' => 'Gravity admin', // Drupal menu display name
-        'description' => 'Gravity admin', // Optional menu description
-    );
-    menu_save($menu);
-
-    cache_clear_all('*', 'cache_menu', TRUE);
-
-    _gravity_admin_install_menu();
+function gravity_admin_install() {
+  $menu = array(
+    'menu_name' => 'gravity_admin', // Drupal menu machine name
+    'title' => 'Gravity admin', // Drupal menu display name
+    'description' => 'Gravity admin', // Optional menu description
+  );
+  menu_save($menu);
+  $item = array(
+    'link_path' => 'admin/people',
+    'menu_name' => 'gravity_admin',
+    'link_title' => 'Users',
+    'weight' => -40,
+//    'module' => 'gravity_admin',
+  );
+  menu_link_save($item);
+  $item = array(
+    'link_path' => 'admin/content',
+    'menu_name' => 'gravity_admin',
+    'link_title' => st('Content'),
+    'weight' => -30,
+    'customized' => 1,
+  );
+  menu_link_save($item);
+  // Create link module
+  $item = array(
+    'link_path' => 'admin/modules',
+    'menu_name' => 'gravity_admin',
+    'link_title' => st('Modules'),
+    'weight' => -20,
+    'customized' => 1,
+  );
+  menu_link_save($item);
+  // Create link configuration
+  $item = array(
+    'link_path' => 'admin/config',
+    'menu_name' => 'gravity_admin',
+    'link_title' => st('Configuration'),
+    'weight' => -10,
+    'customized' => 1,
+  );
+  menu_link_save($item);
 }
 
 /**
  * Add link in the gravity admin menu
  */
-function _gravity_admin_enable_menu(){
-    // Create link users
-    $item = array(
-        'link_path' => 'admin/people',
-        'menu_name' => 'gravity_admin',
-        'link_title' => st('Users'),
-        'weight' => -40,
-        'customized' => 1,
-    );
-    menu_link_save($item);
-    // Create link content
-    $item = array(
-        'link_path' => 'admin/content',
-        'menu_name' => 'gravity_admin',
-        'link_title' => st('Content'),
-        'weight' => -30,
-        'customized' => 1,
-    );
-    menu_link_save($item);
-    // Create link module
-    $item = array(
-        'link_path' => 'admin/modules',
-        'menu_name' => 'gravity_admin',
-        'link_title' => st('Modules'),
-        'weight' => -20,
-        'customized' => 1,
-    );
-    menu_link_save($item);
-    // Create link configuration
-    $item = array(
-        'link_path' => 'admin/config',
-        'menu_name' => 'gravity_admin',
-        'link_title' => st('Configuration'),
-        'weight' => -10,
-        'customized' => 1,
-    );
-    menu_link_save($item);
+function _gravity_admin_install_menu() {
 
-    menu_cache_clear('gravity_admin');
-    menu_rebuild();
+  menu_cache_clear('gravity_admin');
+  menu_rebuild();
 }
-
-/**
- * Implements hook_disable().
- */

@@ -45,7 +45,7 @@ function gravity_admin_menu() {
  * Overwrite theme administrator
  */
 function gravity_admin_theme() {
-    return array(
+  return array(
     'page--administrator' =>  array(
       'template' => 'theme/page--administrator',
       'render element' => 'page'
@@ -53,11 +53,8 @@ function gravity_admin_theme() {
   );
 }
 function gravity_admin_preprocess_page(&$variables){
-    $path = current_path();
-    if ( $path == 'administrator' ) {
-        $variables['theme_hook_suggestions'][] = 'page--administrator';
-    }
+  $path = current_path();
+  if ( $path == 'administrator' ) {
+    $variables['theme_hook_suggestions'][] = 'page--administrator';
+  }
 }
-
-
-
