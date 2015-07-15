@@ -1,0 +1,92 @@
+name           = Midnight
+description    = A Bootstrap Sub-theme (Bootstrap v3.3.4), design for Drupal template project, named <strong>Midnight</strong>.
+core           = 7.x
+base theme     = bootstrap
+version        = 7.x-3.34+0-dev
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Regions
+;;;;;;;;;;;;;;;;;;;;;
+regions[branding]       = 'Branding'
+regions[navigation]     = 'Navigation'
+regions[preface]        = 'Preface'
+regions[header]         = 'Top Bar'
+regions[highlighted]    = 'Highlighted'
+regions[help]           = 'Help'
+regions[content]        = 'Content'
+regions[sidebar_first]  = 'Primary'
+regions[sidebar_second] = 'Secondary'
+regions[postscript]     = 'Postscript'
+regions[footer]         = 'Footer'
+regions[page_top]       = 'Page top'
+regions[page_bottom]    = 'Page bottom'
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Theme Settings
+;;;;;;;;;;;;;;;;;;;;;
+
+; Region Wells
+; --------------
+settings[bootstrap_region_well-sidebar_first] = ''
+
+; Tooltips
+; --------------
+settings[bootstrap_tooltip_enabled] = 0
+
+; Advanced
+; --------------
+; ; Disable BootstrapCDN if using Bootstrap source files in your sub-theme.
+settings[bootstrap_cdn] = ''
+
+; Global
+; --------------
+settings[toggle_logo] = 0
+settings[toggle_name] = 0
+settings[toggle_slogan] = 0
+settings[toggle_secondary_menu] = 0
+
+; Responsive
+; --------------
+settings[disabling_responsiveness] = 1
+settings[non_responsive_width] = '970'
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Stylesheets
+;;;;;;;;;;;;;;;;;;;;;
+
+; Normal Stylesheet
+; --------------
+stylesheets[all][] = bootstrap/dist/css/bootstrap.min.css
+; stylesheets[all][] = bootstrap/dist/css/bootstrap-theme.min.css
+
+; Sass
+; --------------
+stylesheets[all][] = css/style.css
+
+
+; For information on choosing the desired method, please read the Drupal
+; Bootstrap sub-theme "how-to" documentation:
+; https://drupal.org/node/1978010
+
+; ;----------------------------------
+; ; METHOD 1: Bootstrap Source Files
+; ;----------------------------------
+; ;
+; ;;;;;;;;;;;;;;;;;;;;;
+; ;; Scripts
+; ;;;;;;;;;;;;;;;;;;;;;
+; ;
+scripts[] = bootstrap/dist/js/bootstrap.min.js
+scripts[] = js/midnight.js
+
+
+; ;-------------------------
+; ; METHOD 2: Bootstrap CDN
+; ;-------------------------
+; ;
+; Method 2 uses BootstrapCDN, the only thing you might need to provide here
+; is overrides to Bootstrap theme settings. Copy them here from the base theme
+; to override.
