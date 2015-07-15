@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-<?php ?>
-<div class="menu">
-    <p>asdsdsad</p>
-    <?php print render($page['gravity_menu']); ?>
-</div>
-=======
 <?php
 /**
  * @file
@@ -120,8 +113,8 @@
   </div>
 </header>
 
-<p>aaaaaaaaaaaaaaaaaaaaaaaaa</p>
+
 <footer class="footer container">
   <?php print render($page['footer']); ?>
 </footer>
->>>>>>> 3fd29e052b4f724b6883553860197e52f72f6e8e
+
