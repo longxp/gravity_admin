@@ -1,0 +1,45 @@
+<?php
+/**
+ * Implements hook_init()
+ * Create menu name "Gravity admin"
+ */
+function gravity_admin_init() {
+  $menu = array(
+    'menu_name' => 'gravity_admin', // Drupal menu machine name
+    'title' => 'Gravity admin', // Drupal menu display name
+    'description' => 'Gravity admin', // Optional menu description
+  );
+  menu_save($menu);
+}
+
+/**
+ * Implements hook_menu()
+ */
+function gravity_admin_menu() {
+  $items ['administrator'] = array(
+    'title' => 'Gravity',
+    'page callback' => 'gravity_admin',
+    'access arguments' => array('access gravity admin'),
+  );
+
+  return $items;
+}
+
+function gravity_admin() {
+  return t('Create themes');
+}
+
+/**
+ * Implements hook_system_info_alter()
+ * Adds a new "tray" region to the current theme
+ */
+function gravity_admin_system_info_alter(&$info, $file) {
+  global $theme;
+  // If non-default theme configuration has been selected, set the custom theme.
+  $custom_theme = isset ($theme) ? $theme : variable_get('theme_default', 'bartik');
+
+  if ($file->name == $custom_theme){
+    $info['regions'] = array_merge($info['regions'],  array('1gravity_menu' => t('gravity_menu')));
+  }
+}
+
