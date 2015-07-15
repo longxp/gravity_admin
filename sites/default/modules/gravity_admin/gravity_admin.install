@@ -1,16 +1,25 @@
 <?php
 /**
- * Implements hook_install().
+ * Implements hook_enable().
  */
-function gravity_admin_install(){
+function gravity_admin_enable(){
     // Create default entries in the menu.
+    $menu = array(
+        'menu_name' => 'gravity_admin', // Drupal menu machine name
+        'title' => 'Gravity admin', // Drupal menu display name
+        'description' => 'Gravity admin', // Optional menu description
+    );
+    menu_save($menu);
+
+    cache_clear_all('*', 'cache_menu', TRUE);
+
     _gravity_admin_install_menu();
 }
 
 /**
  * Add link in the gravity admin menu
  */
-function _gravity_admin_install_menu(){
+function _gravity_admin_enable_menu(){
     // Create link users
     $item = array(
         'link_path' => 'admin/people',
@@ -51,3 +60,7 @@ function _gravity_admin_install_menu(){
     menu_cache_clear('gravity_admin');
     menu_rebuild();
 }
+
+/**
+ * Implements hook_disable().
+ */

@@ -14,18 +14,6 @@ function gravity_admin_system_info_alter(&$info, $file) {
   }
 }
 
-/**
- * Implements hook_init()
- * Create menu name "Gravity admin"
- */
-function gravity_admin_init() {
-  $menu = array(
-    'menu_name' => 'gravity_admin', // Drupal menu machine name
-    'title' => 'Gravity admin', // Drupal menu display name
-    'description' => 'Gravity admin', // Optional menu description
-  );
-  menu_save($menu);
-}
 
 //function gravity_admin_build(&$page) {
 //  $block = module_invoke('gravity_admin', 'gravity_admin');
@@ -46,31 +34,27 @@ function gravity_admin_init() {
 function gravity_admin_menu() {
   $items ['administrator'] = array(
     'title' => 'Gravity',
-    'page callback' => 'gravity_admin',
+    'page callback' => 'gravity_admin_theme',
     'access arguments' => array('access gravity admin'),
   );
 
   return $items;
 }
 
-//function gravity_admin_theme(){
-//  return array(
-//    'administrator' =>  array(
-//      'template' => 'theme/page--administrator',
-//      'render element' => 'page'
-//    ),
-//  );
-//}
-//
-//function gravity_admin_preprocess_page(&$variables, $hook) {
-//    $variables['theme_hook_suggestions'][] = 'administrator';
-//}
+function gravity_admin_theme() {
+    return array(
+    'page--administrator' =>  array(
+      'template' => 'theme/page--administrator',
+      'render element' => 'page'
+    ),
+  );
+}
 
-function gravity_admin() {
-  global $theme;
-  dsm($theme);
-  return t('Create themes');
-
+function gravity_admin_preprocess_page(&$variables){
+    $path = current_path();
+    if ( $path == 'administrator' ) {
+        $variables['theme_hook_suggestions'][] = 'page--administrator';
+    }
 }
 
 
