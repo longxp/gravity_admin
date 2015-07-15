@@ -1,0 +1,334 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the espresso installation profile.
+ */
+
+/**
+ * Implements hook_install_tasks().
+ */
+function espresso_install_tasks() {
+  // Increase maximum function nesting level to prevent install errors.
+  $max_nesting_level = ini_get('xdebug.max_nesting_level');
+  if ($max_nesting_level > 0 && $max_nesting_level <= '200') {
+    ini_set('xdebug.max_nesting_level', 200);
+  }
+
+  // Remove any status messages that might have been set. They are unneeded.
+  drupal_get_messages('status', TRUE);
+
+  $tasks = array();
+
+  $tasks['espresso_optimization_profile'] = array(
+    'display_name' => st('Optimizing'),
+    'type' => 'batch',
+  );
+
+  return $tasks;
+}
+
+/**
+ * Implements hook_install_tasks_alter().
+ * @param $tasks
+ * @param $install_state
+ */
+function espresso_install_tasks_alter(&$tasks, $install_state) {
+  $tasks['install_select_locale']['function'] = '_espresso_locale_selection';
+}
+
+/**
+ * Force-set locale to use for the current profile.
+ * @param $install_state
+ *
+ */
+function _espresso_locale_selection(&$install_state) {
+  $install_state['parameters']['locale'] = 'en';
+}
+
+/**
+ * Implements hook_install().
+ * Perform actions to set up the site for this profile.
+ * @see system_install()
+ */
+function espresso_install() {
+  // Add text formats.
+  $filtered_html_format = array(
+    'format' => 'filtered_html',
+    'name' => 'Filtered HTML',
+    'weight' => 0,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      // HTML filter.
+      'filter_html' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 2,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $filtered_html_format = (object) $filtered_html_format;
+  filter_format_save($filtered_html_format);
+
+  $full_html_format = array(
+    'format' => 'full_html',
+    'name' => 'Full HTML',
+    'weight' => 1,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $full_html_format = (object) $full_html_format;
+  filter_format_save($full_html_format);
+
+  // Enable some standard blocks.
+  $default_theme = variable_get('theme_default', 'bartik');
+  $admin_theme = 'seven';
+  $blocks = array(
+    array(
+      'module' => 'system',
+      'delta' => 'main',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'user',
+      'delta' => 'login',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'sidebar_first',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'help',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'help',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'main',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'help',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'help',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'user',
+      'delta' => 'login',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 10,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => -1,
+    ),
+  );
+  $query = db_insert('block')->fields(array(
+    'module',
+    'delta',
+    'theme',
+    'status',
+    'weight',
+    'region',
+    'pages',
+    'cache'
+  ));
+  foreach ($blocks as $block) {
+    $query->values($block);
+  }
+  $query->execute();
+
+  // Insert default pre-defined node types into the database. For a complete
+  // list of available node type attributes, refer to the node type API
+  // documentation at: http://api.drupal.org/api/HEAD/function/hook_node_info.
+  $types = array(
+    array(
+      'type' => 'page',
+      'name' => st('Basic page'),
+      'base' => 'node_content',
+      'description' => st("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+    ),
+  );
+
+  foreach ($types as $type) {
+    $type = node_type_set_defaults($type);
+    node_type_save($type);
+    node_add_body_field($type);
+  }
+
+  // Insert default pre-defined RDF mapping into the database.
+  $rdf_mappings = array(
+    array(
+      'type' => 'node',
+      'bundle' => 'page',
+      'mapping' => array(
+        'rdftype' => array('foaf:Document'),
+      ),
+    ),
+  );
+  foreach ($rdf_mappings as $rdf_mapping) {
+    rdf_mapping_save($rdf_mapping);
+  }
+
+  // Default "Basic page" to not be promoted and have comments disabled.
+  variable_set('node_options_page', array('status'));
+
+  // Don't display date and author information for "Basic page" nodes by default.
+  variable_set('node_submitted_page', FALSE);
+
+  // Enable user picture support and set the default to a square thumbnail option.
+  variable_set('user_pictures', '1');
+  variable_set('user_picture_dimensions', '1024x1024');
+  variable_set('user_picture_file_size', '800');
+  variable_set('user_picture_style', 'thumbnail');
+
+  // Allow visitor account creation with administrative approval.
+  variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
+
+  // Enable default permissions for system roles.
+  $filtered_html_permission = filter_permission_name($filtered_html_format);
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', $filtered_html_permission));
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', $filtered_html_permission));
+
+  // Create a default role for site administrators, with all available permissions assigned.
+  $admin_role = new stdClass();
+  $admin_role->name = 'administrator';
+  $admin_role->weight = 2;
+  user_role_save($admin_role);
+  user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
+  // Set this as the administrator role.
+  variable_set('user_admin_role', $admin_role->rid);
+
+  // Assign user 1 the "administrator" role.
+  db_insert('users_roles')
+    ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
+    ->execute();
+
+  // Create a Home link in the main menu.
+  $item = array(
+    'link_title' => st('Home'),
+    'link_path' => '<front>',
+    'menu_name' => 'main-menu',
+  );
+  menu_link_save($item);
+
+  // Update the menu router information.
+  menu_rebuild();
+
+  // Enable the admin theme.
+  db_update('system')
+    ->fields(array('status' => 1))
+    ->condition('type', 'theme')
+    ->condition('name', 'seven')
+    ->execute();
+  variable_set('admin_theme', 'seven');
+  variable_set('node_admin_theme', '1');
+}
+
+/**
+ * Task callback: uses Batch API to implement profile optimization task
+ */
+function espresso_optimization_profile() {
+  $modules = array('ckeditor');
+
+  // Resolve the dependencies now, so that module_enable() doesn't need
+  // to do it later for each individual module (which kills performance).
+  $files = system_rebuild_module_data();
+  $modules_sorted = array();
+  foreach ($modules as $module) {
+    if ($files[$module]->requires) {
+      // Create a list of dependencies that haven't been installed yet.
+      $dependencies = array_keys($files[$module]->requires);
+      $dependencies = array_filter($dependencies, '_espresso_operation_filter_dependencies');
+
+      // Add them to the module list.
+      $modules = array_merge($modules, $dependencies);
+    }
+  }
+  $modules = array_unique($modules);
+  foreach ($modules as $module) {
+    $modules_sorted[$module] = $files[$module]->sort;
+  }
+  arsort($modules_sorted);
+
+  $operations = array();
+  foreach ($modules_sorted as $module => $weight) {
+    $operations[] = array('_espresso_operation_enable_module', array($module, $files[$module]->info['name']));
+  }
+  $operations[] = array('_espresso_operation_configure_variable', array());
+  if (module_exists('backup_migrate')) {
+    $operations[] = array('_espresso_operation_configure_backup_migrate', array());
+  }
+  $operations[] = array('_espresso_operation_rebuild_theme', array());
+  $operations[] = array('_espresso_operation_flush_cache', array());
+  $operations[] = array('_espresso_operation_clear_watchdog', array());
+
+  $batch = array(
+    'title' => st('Preparing optimization'),
+    'operations' => $operations,
+    'file' => drupal_get_path('profile', 'espresso') . '/espresso.install_callbacks.inc',
+  );
+
+  return $batch;
+}
+
+/**
+ * array_filter() callback used to filter out already installed dependencies.
+ * @param $dependency
+ * @return bool
+ */
+function _espresso_operation_filter_dependencies($dependency) {
+  return !module_exists($dependency);
+}
