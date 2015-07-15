@@ -9,8 +9,8 @@ function gravity_admin_system_info_alter(&$info, $file) {
   // If non-default theme configuration has been selected, set the custom theme.
   $custom_theme = isset ($theme) ? $theme : variable_get('theme_default', 'bartik');
 
-  if ($file->name == $custom_theme) {
-    $info['regions'] = array_merge($info['regions'], array('gravity_menu' => t('gravity_menu')));
+  if ($file->name == $custom_theme){
+    $info['regions'] = array_merge($info['regions'],  array('gravity_menu' => t('gravity_menu')));
   }
 }
 
@@ -34,43 +34,25 @@ function gravity_admin_system_info_alter(&$info, $file) {
 function gravity_admin_menu() {
   $items ['administrator'] = array(
     'title' => 'Gravity',
-    'page callback' => 'gravity_admin_page',
+    'page callback' => 'gravity_admin_theme',
     'access arguments' => array('access gravity admin'),
   );
 
   return $items;
 }
 
-//function gravity_admin_theme(){
-//  return array(
-//    'administrator' =>  array(
-//      'template' => 'theme/page--administrator',
-//      'render element' => 'page'
-//    ),
-//  );
-//}
-
-
-/**
- * @return null|string
- */
-function gravity_admin_page() {
+function gravity_admin_theme() {
   return array(
-    'page--administrator' => array(
+    'page--administrator' =>  array(
       'template' => 'theme/page--administrator',
       'render element' => 'page'
     ),
   );
 }
 
-//function gravity_admin_preprocess_page(&$variables, $hook) {
-//  $variables['theme_hook_suggestions'][] = 'administrator';
-//}
-function gravity_admin_preprocess_page(&$variables) {
+function gravity_admin_preprocess_page(&$variables){
   $path = current_path();
-  dsm($path);
-  if ($path == 'administrator') {
+  if ( $path == 'administrator' ) {
     $variables['theme_hook_suggestions'][] = 'page--administrator';
   }
 }
-
