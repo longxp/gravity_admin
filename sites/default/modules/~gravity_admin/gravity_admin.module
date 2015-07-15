@@ -34,18 +34,13 @@ function gravity_admin_system_info_alter(&$info, $file) {
 function gravity_admin_menu() {
   $items ['administrator'] = array(
     'title' => 'Gravity',
-<<<<<<< HEAD
     'page callback' => 'gravity_admin_page',
-=======
-    'page callback' => 'gravity_admin_theme',
->>>>>>> c8a1071250dfa861cc65a3907d314880e3397235
     'access arguments' => array('access gravity admin'),
   );
 
   return $items;
 }
 
-<<<<<<< HEAD
 //function gravity_admin_theme(){
 //  return array(
 //    'administrator' =>  array(
@@ -66,22 +61,6 @@ function gravity_admin_page() {
       'render element' => 'page'
     ),
   );
-=======
-function gravity_admin_theme() {
-    return array(
-    'page--administrator' =>  array(
-      'template' => 'theme/page--administrator',
-      'render element' => 'page'
-    ),
-  );
-}
-
-function gravity_admin_preprocess_page(&$variables){
-    $path = current_path();
-    if ( $path == 'administrator' ) {
-        $variables['theme_hook_suggestions'][] = 'page--administrator';
-    }
->>>>>>> c8a1071250dfa861cc65a3907d314880e3397235
 }
 
 //function gravity_admin_preprocess_page(&$variables, $hook) {
