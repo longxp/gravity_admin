@@ -15,18 +15,18 @@ function gravity_admin_system_info_alter(&$info, $file) {
 }
 
 
-//function gravity_admin_build(&$page) {
-//  $block = module_invoke('gravity_admin', 'gravity_admin');
-//  drupal_add_region_content("gravity_admin", theme("block", $block));
-//
-////  $region = 'gravity_admin';
-////  if (isset($page[$region])) {
-////    $page[$region] = array_merge($page[$region], $blocks);
-////  }
-////  else {
-////    $page[$region] = $blocks;
-////  }
-//}
+function gravity_admin_build(&$page) {
+  $block = module_invoke('gravity_admin', 'gravity_admin');
+  drupal_add_region_content("gravity_admin", theme("block", $block));
+
+  $region = 'gravity_admin';
+  if (isset($page[$region])) {
+    $page[$region] = array_merge($page[$region], $blocks);
+  }
+  else {
+    $page[$region] = $blocks;
+  }
+}
 
 /**
  * Implements hook_menu()
@@ -41,6 +41,9 @@ function gravity_admin_menu() {
   return $items;
 }
 
+/**
+ * Overwrite theme administrator
+ */
 function gravity_admin_theme() {
     return array(
     'page--administrator' =>  array(
@@ -49,7 +52,6 @@ function gravity_admin_theme() {
     ),
   );
 }
-
 function gravity_admin_preprocess_page(&$variables){
     $path = current_path();
     if ( $path == 'administrator' ) {
