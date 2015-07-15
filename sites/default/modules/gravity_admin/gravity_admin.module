@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * Implements hook_system_info_alter()
+ * Adds a new "gravity_menu" region to the current theme
+ */
+function gravity_admin_system_info_alter(&$info, $file) {
+  global $theme;
+  // If non-default theme configuration has been selected, set the custom theme.
+  $custom_theme = isset ($theme) ? $theme : variable_get('theme_default', 'bartik');
+
+  if ($file->name == $custom_theme){
+    $info['regions'] = array_merge($info['regions'],  array('gravity_menu' => t('gravity_menu')));
+  }
+}
+
 /**
  * Implements hook_init()
  * Create menu name "Gravity admin"
@@ -11,6 +26,19 @@ function gravity_admin_init() {
   );
   menu_save($menu);
 }
+
+//function gravity_admin_build(&$page) {
+//  $block = module_invoke('gravity_admin', 'gravity_admin');
+//  drupal_add_region_content("gravity_admin", theme("block", $block));
+//
+////  $region = 'gravity_admin';
+////  if (isset($page[$region])) {
+////    $page[$region] = array_merge($page[$region], $blocks);
+////  }
+////  else {
+////    $page[$region] = $blocks;
+////  }
+//}
 
 /**
  * Implements hook_menu()
@@ -25,21 +53,25 @@ function gravity_admin_menu() {
   return $items;
 }
 
+//function gravity_admin_theme(){
+//  return array(
+//    'administrator' =>  array(
+//      'template' => 'theme/page--administrator',
+//      'render element' => 'page'
+//    ),
+//  );
+//}
+//
+//function gravity_admin_preprocess_page(&$variables, $hook) {
+//    $variables['theme_hook_suggestions'][] = 'administrator';
+//}
+
 function gravity_admin() {
-  return t('Create themes');
-}
-
-/**
- * Implements hook_system_info_alter()
- * Adds a new "tray" region to the current theme
- */
-function gravity_admin_system_info_alter(&$info, $file) {
   global $theme;
-  // If non-default theme configuration has been selected, set the custom theme.
-  $custom_theme = isset ($theme) ? $theme : variable_get('theme_default', 'bartik');
+  dsm($theme);
+  return t('Create themes');
 
-  if ($file->name == $custom_theme){
-    $info['regions'] = array_merge($info['regions'],  array('1gravity_menu' => t('gravity_menu')));
-  }
 }
+
+
 
