@@ -12,15 +12,16 @@ function gravity_admin_enable() {
     );
     menu_save($menu);
     $item = array(
-        'link_path' => 'admin/people',
+        'link_path' => 'administrator/user',
         'menu_name' => 'gravity_admin',
         'link_title' => 'Users',
         'weight' => -40,
+        'customized' => 1,
         //    'module' => 'gravity_admin',
     );
     menu_link_save($item);
     $item = array(
-        'link_path' => 'admin/content',
+        'link_path' => 'administrator/content',
         'menu_name' => 'gravity_admin',
         'link_title' => 'Content',
         'weight' => -30,
@@ -29,7 +30,7 @@ function gravity_admin_enable() {
     menu_link_save($item);
     // Create link module
     $item = array(
-        'link_path' => 'admin/modules',
+        'link_path' => 'administrator/modules',
         'menu_name' => 'gravity_admin',
         'link_title' => 'Modules',
         'weight' => -20,
@@ -38,7 +39,7 @@ function gravity_admin_enable() {
     menu_link_save($item);
     // Create link configuration
     $item = array(
-        'link_path' => 'admin/config',
+        'link_path' => 'administrator/config',
         'menu_name' => 'gravity_admin',
         'link_title' => 'Configuration',
         'weight' => -10,
@@ -52,10 +53,10 @@ function gravity_admin_enable() {
  * Remove gravity menu if disable module
  */
 function gravity_admin_disable() {
-        menu_link_delete('Users', 'admin/people');
-        menu_link_delete('Content', 'admin/content');
-        menu_link_delete('Modules', 'admin/modules');
-        menu_link_delete('Configuration', 'admin/config');
+        menu_link_delete('Users', 'administrator/user');
+        menu_link_delete('Content', 'administrator/content');
+        menu_link_delete('Modules', 'administrator/modules');
+        menu_link_delete('Configuration', 'administrator/config');
         menu_delete(menu_load('gravity_admin'));
         drupal_uninstall_modules(array('gravity_admin'));
 }
