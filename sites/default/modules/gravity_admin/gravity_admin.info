@@ -5,8 +5,7 @@ core = 7.x
 files[] = gravity_admin.module
 files[] = gravity_admin.install
 files[] = gravity_admin.js
-files[] = admin_views_default/node.admin-content.inc
-files[] = admin_views_default/user.admin-people.inc
+
 dependencies[] = views
 dependencies[] = views_bulk_operations
 dependencies[] = ctools
