@@ -1,18 +1,6 @@
 <?php
 
-/**
- * Implements hook_system_info_alter()
- * Adds a new "gravity_menu" region to the current theme
- */
-function gravity_admin_system_info_alter(&$info, $file) {
-  global $theme;
-  // If non-default theme configuration has been selected, set the custom theme.
-  $custom_theme = isset ($theme) ? $theme : variable_get('theme_default', 'bartik');
 
-  if ($file->name == $custom_theme){
-    $info['regions'] = array_merge($info['regions'],  array('gravity_menu' => t('gravity_menu')));
-  }
-}
 
 
 //function gravity_admin_build(&$page) {
@@ -56,5 +44,19 @@ function gravity_admin_preprocess_page(&$variables){
   $path = current_path();
   if ( $path == 'administrator' ) {
     $variables['theme_hook_suggestions'][] = 'page--administrator';
+  }
+}
+/**
+ * Implements hook_system_info_alter()
+ * Adds a new "gravity_menu" region to the current theme
+ */
+function gravity_admin_system_info_alter(&$info, $file) {
+  global $theme;
+  // If non-default theme configuration has been selected, set the custom theme.
+  $custom_theme = isset ($theme) ? $theme : variable_get('theme_default', 'bartik');
+
+  if ($file->name == $custom_theme){
+    $info['regions'] = array_merge($info['regions'],  array('gravity_menu' => t('gravity_menu')));
+    $info['regions'] = array_merge($info['regions'],  array('gravity_content' => t('gravity_content')));
   }
 }
