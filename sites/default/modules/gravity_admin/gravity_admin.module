@@ -60,8 +60,6 @@ function gravity_admin_system_info_alter(&$info, $file) {
     $info['regions'] = array_merge($info['regions'],  array('gravity_content' => t('gravity_content')));
   }
 }
-<<<<<<< HEAD
-
 
 /**
  * Implements hook_views_api().
@@ -72,10 +70,5 @@ function gravity_admin_views_api() {
     );
 }
 
-=======
-function gravity_admin_views_api() {
-  return array(
-    'api' => 3,
-  );
-}
->>>>>>> 6d281298d2b1528db3fc594af7def7f659797150
+
+
