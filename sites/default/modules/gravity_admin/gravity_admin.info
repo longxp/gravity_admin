@@ -7,6 +7,8 @@ files[] = gravity_admin.install
 files[] = gravity_admin.js
 files[] = admin_views_default/node.admin-content.inc
 files[] = admin_views_default/user.admin-people.inc
+files[] = gravity_admin.views_default.inc
+
 dependencies[] = views
 dependencies[] = views_bulk_operations
 dependencies[] = ctools
