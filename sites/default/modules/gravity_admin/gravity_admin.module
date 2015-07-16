@@ -60,3 +60,8 @@ function gravity_admin_system_info_alter(&$info, $file) {
     $info['regions'] = array_merge($info['regions'],  array('gravity_content' => t('gravity_content')));
   }
 }
+function gravity_admin_views_api() {
+  return array(
+    'api' => 3,
+  );
+}
