@@ -5,3 +5,7 @@ core = 7.x
 files[] = gravity_admin.module
 files[] = gravity_admin.install
 files[] = gravity_admin.js
+dependencies[] = views
+dependencies[] = views_bulk_operations
+dependencies[] = ctools
+dependencies[] = entity
