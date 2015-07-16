@@ -19,9 +19,9 @@ function gravity_admin_views_default_views() {
     $view = new view();
     $view->name = 'gravity_views_user';
     $view->description = '';
-    $view->tag = 'default';
+    $view->tag = 'admin';
     $view->base_table = 'users';
-    $view->human_name = 'gravity_views_user';
+    $view->human_name = 'Administration: Users';
     $view->core = 7;
     $view->api_version = '3.0';
     $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -295,6 +295,9 @@ function gravity_admin_views_default_views() {
     $handler->display->display_options['path'] = 'administrator/user';
 
     $views[$view->name] = $view;
+
+
+
     return $views;
 
 }
