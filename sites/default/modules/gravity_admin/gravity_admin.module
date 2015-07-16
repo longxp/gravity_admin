@@ -69,4 +69,3 @@ function gravity_admin_views_api() {
         'api' => 3,
     );
 }
-
