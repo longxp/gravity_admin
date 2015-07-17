@@ -72,7 +72,7 @@
  *
  * @ingroup themeable
  */
-print arg(0);
+
 ?>
 <header id="navbar" role="banner" class="<?php print $navbar_classes; ?>">
   <div class="container">
@@ -127,19 +127,19 @@ print arg(0);
   <div class="row">
 
 
-      <aside class="col-sm-3" role="complementary">
+      <section class="col-md-4" role="complementary">
         <div id="gravity_admin_menu">
           <h1 class="page-header">Gravity Menu</h1>
           <?php print render($page['gravity_menu']); ?>
           <?php
-          $menu = menu_navigation_links('gravity_admin');
-          print theme('links__menu_your_custom_menu_name', array('links' => $menu));
+             $menu = menu_navigation_links('gravity_admin');
+             print theme('links__menu_your_custom_menu_name', array('links' => $menu));
           ?>
 
-      </aside>  <!-- /#sidebar-first -->
+      </section>
 
 
-    <section<?php print $content_column_class; ?>>
+    <section class="col-md-8">
       <?php if (!empty($page['highlighted'])): ?>
         <div class="highlighted jumbotron"><?php print render($page['highlighted']); ?></div>
       <?php endif; ?>
