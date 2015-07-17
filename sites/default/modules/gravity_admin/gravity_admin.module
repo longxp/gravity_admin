@@ -41,11 +41,7 @@ function gravity_admin_theme() {
   );
 }
 function gravity_admin_preprocess_page(&$variables){
-  $path = current_path();
-  if ( $path == 'administrator' ) {
-    $variables['theme_hook_suggestions'][] = 'page--administrator';
-  }
-  if ( $path == 'administrator/user' ) {
+  if ( arg(0) == 'administrator' ) {
     $variables['theme_hook_suggestions'][] = 'page--administrator';
   }
 }

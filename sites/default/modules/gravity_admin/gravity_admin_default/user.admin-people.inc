@@ -6,8 +6,8 @@
  */
 
     $view = new view();
-    $view->name = 'admin_views_user';
-    $view->description = 'List, add, and edit users.';
+    $view->name = 'gravity_views_user';
+    $view->description = 'List and edit users.';
     $view->tag = 'admin';
     $view->base_table = 'users';
     $view->human_name = 'Administration: Users';
@@ -18,7 +18,7 @@
     /* Display: Defaults */
     $handler = $view->new_display('default', 'Defaults', 'default');
     $handler->display->display_options['title'] = 'Users';
-    $handler->display->display_options['css_class'] = 'admin-views-view';
+    $handler->display->display_options['css_class'] = 'gravity-admin-view';
     $handler->display->display_options['use_ajax'] = TRUE;
     $handler->display->display_options['use_more_always'] = FALSE;
     $handler->display->display_options['access']['type'] = 'menu';
@@ -316,4 +316,4 @@
     $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
     $handler->display->display_options['hide_admin_links'] = TRUE;
     $handler->display->display_options['defaults']['access'] = FALSE;
-    $handler->display->display_options['path'] = 'administrator/useradmin/people';
+    $handler->display->display_options['path'] = 'administrator/user';

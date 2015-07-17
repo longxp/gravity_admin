@@ -1,10 +1,4 @@
 <?php
-
-
-
-
-
-
 /**
  * @file
  * Default theme implementation to display a single Drupal page.
@@ -78,6 +72,7 @@
  *
  * @ingroup themeable
  */
+print arg(0);
 ?>
 <header id="navbar" role="banner" class="<?php print $navbar_classes; ?>">
   <div class="container">
