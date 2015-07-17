@@ -45,6 +45,9 @@ function gravity_admin_preprocess_page(&$variables){
   if ( $path == 'administrator' ) {
     $variables['theme_hook_suggestions'][] = 'page--administrator';
   }
+  if ( $path == 'administrator/user' ) {
+    $variables['theme_hook_suggestions'][] = 'page--administrator';
+  }
 }
 /**
  * Implements hook_system_info_alter()
@@ -60,6 +63,7 @@ function gravity_admin_system_info_alter(&$info, $file) {
     $info['regions'] = array_merge($info['regions'],  array('gravity_content' => t('gravity_content')));
   }
 }
+
 
 /**
  * Implements hook_views_api().
