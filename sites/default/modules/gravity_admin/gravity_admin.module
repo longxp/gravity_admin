@@ -20,11 +20,19 @@
  * Implements hook_menu()
  */
 function gravity_admin_menu() {
-  $items ['administrator'] = array(
-    'title' => 'Gravity',
-    'page callback' => 'gravity_admin_theme',
-    'access arguments' => array('access gravity admin'),
-  );
+      $items ['administrator'] = array(
+        'title' => 'Gravity',
+        'page callback' => 'gravity_admin_theme',
+        'access arguments' => array('access gravity admin'),
+      );
+
+    $items ['administrator/config'] = array(
+        'title' => 'Configuration',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('gravity_admin_config_form'),
+        'access arguments' => array('administer site configuration'),
+        'file' => 'gravity_admin.admin.inc',
+    );
 
   return $items;
 }
@@ -59,8 +67,6 @@ function gravity_admin_system_info_alter(&$info, $file) {
     $info['regions'] = array_merge($info['regions'],  array('gravity_content' => t('gravity_content')));
   }
 }
-
-
 /**
  * Implements hook_views_api().
  */
