@@ -14,6 +14,7 @@
 * Customize Configuration form
 */
 function gravity_admin_config_form($form, &$form_state){
+    include_once DRUPAL_ROOT . '/includes/locale.inc';
     $form = array();
 
     $form['site_title'] = array(
@@ -49,6 +50,13 @@ function gravity_admin_config_form($form, &$form_state){
             USER_REGISTER_VISITORS => t('Visitors'),
             USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL => t('Visitors, but administrator approval is required'),
         )
+    );
+    $form['default_country'] = array(
+        '#type' => 'select',
+        '#title' => 'Default country',
+        '#default_value' => variable_get('site_default_country', ''),
+        '#options' => country_get_list(),
+        '#attributes' => array('class' => array('country-detect')),
     );
     $form['time_zone'] = array(
         '#type' => 'select',
@@ -91,7 +99,7 @@ function gravity_admin_config_validate($form, &$form_state) {
     }
     // Validate front page path.
     if (!drupal_valid_path($form_state['values']['site_frontpage'])) {
-        form_set_error('site_frontpage', t("The path '%path' is either invalid or you do not have access to it.", array('%path' => $form_state['values']['front_page'])));
+        form_set_error('site_frontpage', t("The path '%path' is either invalid or you do not have access to it.", array('%path' => $form_state['values']['site_frontpage'])));
     }
 }
 
@@ -101,7 +109,8 @@ function gravity_admin_config_form_submit($form, &$form_state) {
     variable_set('site_name', $form_state['values']['site_title']);
     variable_set('site_slogan', $form_state['values']['slogan']);
     variable_set('site_mail', $form_state['values']['email']);
-    variable_set('site_frontpage', $form_state['values']['front_page']);
+    variable_set('site_frontpage', $form_state['values']['site_frontpage']);
+    variable_set('site_default_country', $form_state['values']['default_country']);
     variable_set('user_register', $form_state['values']['member']);
     variable_set('date_default_timezone', $form_state['values']['time_zone']);
     variable_set('date_first_day', $form_state['values']['date_first_day']);

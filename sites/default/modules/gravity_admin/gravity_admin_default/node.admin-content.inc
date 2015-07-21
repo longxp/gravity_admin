@@ -253,19 +253,6 @@
             'postpone_processing' => 0,
         ),
     );
-    /* Header: Global: Text area */
-/*    $handler->display->display_options['header']['area']['id'] = 'area';
-   $handler->display->display_options['header']['area']['table'] = 'views';
-   $handler->display->display_options['header']['area']['field'] = 'area';
-   $handler->display->display_options['header']['area']['content'] = '<?php
-   $type = $_GET["type"];
-   global $base_url;
-   $path = current_path();
-    ?>
-   <a href="<?php print $base_url;?>/<?php print $path;?>#overlay=/node/add/<?php echo $type; ?>">Thêm mới</a>
-   ';
-   $handler->display->display_options['header']['area']['format'] = 'php_code';
-*/
    /* Field: Content: Title */
     $handler->display->display_options['fields']['title']['id'] = 'title';
     $handler->display->display_options['fields']['title']['table'] = 'node';

@@ -132,10 +132,13 @@
           <h1 class="page-header">Gravity Menu</h1>
           <?php print render($page['gravity_menu']); ?>
           <?php
-             $menu = menu_navigation_links('gravity_admin');
-             print theme('links__menu_your_custom_menu_name', array('links' => $menu));
+//             $menu = menu_navigation_links('gravity_admin');
+//             print theme('links__menu_your_custom_menu_name', array('links' => $menu));
+             print drupal_render(menu_tree('gravity_admin'));
           ?>
-
+          <div class="add-link">
+              <a href="#overlay=admin/structure/menu/manage/gravity_admin/add" class="button">Add link</a>
+          </div>
       </section>
 
 

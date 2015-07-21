@@ -47,6 +47,7 @@ function gravity_admin_enable() {
     );
     menu_link_save($item);
 
+    drupal_flush_all_caches();
 }
 
 /**
