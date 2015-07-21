@@ -9,3 +9,4 @@ files[] = gravity_admin.js
 dependencies[] = views
 dependencies[] = views_bulk_operations
 dependencies[] = ctools
+dependencies[] = overlay

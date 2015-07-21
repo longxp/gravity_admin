@@ -16,7 +16,7 @@
     $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
     /* Display: Defaults */
-    $handler = $view->new_display('default', 'Defaults', 'default');
+    $handler = $view->new_display('default', 'Master', 'default');
     $handler->display->display_options['title'] = 'Users';
     $handler->display->display_options['css_class'] = 'gravity-admin-view';
     $handler->display->display_options['use_ajax'] = TRUE;

@@ -33,7 +33,7 @@ function gravity_admin_config_form($form, &$form_state){
         '#default_value' => variable_get('site_mail', ini_get('sendmail_from')),
         '#required' => TRUE,
     );
-    $form['front_page'] = array(
+    $form['site_frontpage'] = array(
         '#type' => 'textfield',
         '#title' => 'Default front page: ',
         '#default_value' => (variable_get('site_frontpage')!='node'?drupal_get_path_alias(variable_get('site_frontpage', 'node')):''),
@@ -80,13 +80,28 @@ function gravity_admin_config_validate($form, &$form_state) {
     if ($error = user_validate_mail($form_state['values']['email'])) {
         form_set_error('email', $error);
     }
+    // Check for empty front page path.
+    if (empty($form_state['values']['site_frontpage'])) {
+        // Set to default "node".
+        form_set_value($form['site_frontpage'], 'node', $form_state);
+    }
+    else {
+        // Get the normal path of the front page.
+        form_set_value($form['site_frontpage'], drupal_get_normal_path($form_state['values']['site_frontpage']), $form_state);
+    }
+    // Validate front page path.
+    if (!drupal_valid_path($form_state['values']['site_frontpage'])) {
+        form_set_error('site_frontpage', t("The path '%path' is either invalid or you do not have access to it.", array('%path' => $form_state['values']['front_page'])));
+    }
 }
 
 function gravity_admin_config_form_submit($form, &$form_state) {
     //dsm($form_state);
+    //dsm($form);
     variable_set('site_name', $form_state['values']['site_title']);
     variable_set('site_slogan', $form_state['values']['slogan']);
     variable_set('site_mail', $form_state['values']['email']);
+    variable_set('site_frontpage', $form_state['values']['front_page']);
     variable_set('user_register', $form_state['values']['member']);
     variable_set('date_default_timezone', $form_state['values']['time_zone']);
     variable_set('date_first_day', $form_state['values']['date_first_day']);
