@@ -59,22 +59,30 @@ function gravity_admin_system_info_alter(&$info, $file) {
     $info['regions'] = array_merge($info['regions'],  array('gravity_content' => t('gravity_content')));
   }
 }
-/**
- * Implements hook_views_pre_render().
- * Add content
- */
-function gravity_admin_views_pre_render(&$view, &$display_id, &$args) {
-    // Scramble the order of the rows shown on this result page.
-    // Note that this could be done earlier, but not later in the view execution
-    // process.
-    //dsm($display_id);
-    if ($view->name == "gravity_views_node") {
-        // dsm($view);
-
-        global $base_url;
-        $type = $_GET["type"];
-        $path = $base_url . "/" . arg(0) . "/" . arg(1) . "#overlay=/node/add/" .$type;
-        $alias = drupal_get_path_alias($path);
-        $view->attachment_before = '<a href="'.$alias.'">Add content</a>';
-    }
-}
+///**
+// * Implements hook_views_pre_render().
+// * Add content
+// */
+//function gravity_admin_views_pre_render(&$view, &$display_id, &$args) {
+//    // Scramble the order of the rows shown on this result page.
+//    // Note that this could be done earlier, but not later in the view execution
+//    // process.
+//    //dsm($display_id);
+//    if ($view->name == "gravity_views_node") {
+//        // dsm($view);
+//
+//        global $base_url;
+//        $type = $_GET["type"];
+//        $path = $base_url . "/" . arg(0) . "/" . arg(1) . "#overlay=/node/add/" .$type;
+//        $alias = drupal_get_path_alias($path);
+//        $header_content = '<a href="'.$alias.'">Add content</a>';
+//
+//        $header_options = array(
+//            'label' => t('Header text'), // Administrative label. Not really needed here.
+//            'content' => $header_content, // Content of header text.
+//            'format' => 'filtered_html', // Format of header text.
+//            'empty' => 1, // Show even when there are no results. Set to zero otherwise.
+//        );
+//        $view->add_item('default', 'header', 'views', 'area', $header_options);
+//    }
+//}

@@ -253,6 +253,19 @@
             'postpone_processing' => 0,
         ),
     );
+    /* Header: Global: Text area */
+
+    global $base_url;
+    $type = $_GET["type"];
+    $path = $base_url . "/" . arg(0) . "/" . arg(1) . "#overlay=/node/add/" .$type;
+    $alias = drupal_get_path_alias($path);
+    $header_content = '<a href="'.$alias.'">Add content</a>';
+
+    $handler->display->display_options['header']['area']['id'] = 'area';
+    $handler->display->display_options['header']['area']['table'] = 'views';
+    $handler->display->display_options['header']['area']['field'] = 'area';
+    $handler->display->display_options['header']['area']['content'] = $header_content;
+    $handler->display->display_options['header']['area']['format'] = 'full_html';
    /* Field: Content: Title */
     $handler->display->display_options['fields']['title']['id'] = 'title';
     $handler->display->display_options['fields']['title']['table'] = 'node';

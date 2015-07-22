@@ -59,5 +59,12 @@ function gravity_admin_disable() {
         menu_link_delete('Modules', 'administrator/modules');
         menu_link_delete('Configuration', 'administrator/config');
         menu_delete(menu_load('gravity_admin'));
+        // Remove gravity admin view
+        $view = views_get_view('gravity_views_node');
+        $view->delete();
+        $view = views_get_view('gravity_views_user');
+        $view->delete();
+        // Uninstall module
         drupal_uninstall_modules(array('gravity_admin'));
+        drupal_flush_all_caches();
 }
